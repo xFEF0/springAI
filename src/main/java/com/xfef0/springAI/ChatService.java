@@ -3,16 +3,17 @@ package com.xfef0.springAI;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.mistralai.MistralAiChatModel;
 import org.springframework.ai.mistralai.MistralAiChatOptions;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ChatService {
 
-    private final ChatModel chatModel;
+    private final MistralAiChatModel chatModel;
 
 
-    public ChatService(ChatModel chatModel) {
+    public ChatService(MistralAiChatModel chatModel) {
         this.chatModel = chatModel;
     }
 

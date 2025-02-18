@@ -1,13 +1,15 @@
 package com.xfef0.springAI;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.ai.image.ImageResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("${api.prefix}")
@@ -31,10 +33,16 @@ public class GenAIController {
         return chatService.getResponseWithOptions(prompt);
     }
 
-    @GetMapping("/generate-image")
-    public void generateImages(HttpServletResponse response, @RequestParam String prompt) throws IOException {
+    @GetMapping(value = "/generate-image", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody ResponseEntity<?> generateImages(@RequestParam String prompt) throws IOException {
         ImageResponse imageResponse = imageService.generateImage(prompt);
-        String imageUrl = imageResponse.getResult().getOutput().getUrl();
-        response.sendRedirect(imageUrl);
+
+        Optional<ByteArrayResource> image = imageResponse.getResults().stream()
+                .map(result -> result.getOutput().getB64Json())
+                .map(b64json -> Base64.getDecoder().decode(b64json))
+                .map(ByteArrayResource::new)
+                .findFirst();
+
+        return ResponseEntity.ok(image.get());
     }
 }
