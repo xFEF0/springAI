@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,10 +16,12 @@ public class GenAIController {
 
     private final ChatService chatService;
     private final ImageService imageService;
+    private final RecipeService recipeService;
 
-    public GenAIController(ChatService chatService, ImageService imageService) {
+    public GenAIController(ChatService chatService, ImageService imageService, RecipeService recipeService) {
         this.chatService = chatService;
         this.imageService = imageService;
+        this.recipeService = recipeService;
     }
 
     @GetMapping("/ask-ai")
@@ -44,5 +45,12 @@ public class GenAIController {
                 .findFirst();
 
         return ResponseEntity.ok(image.get());
+    }
+
+    @GetMapping("/create-recipe")
+    public String getRecipe(@RequestParam String ingredients,
+                            @RequestParam(defaultValue = "any") String cuisine,
+                            @RequestParam(defaultValue = "none") String dietaryRestrictions) {
+        return recipeService.createRecipe(ingredients, cuisine, dietaryRestrictions);
     }
 }
