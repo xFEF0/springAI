@@ -1,4 +1,4 @@
-package com.xfef0.springAI;
+package com.xfef0.springAI.service;
 
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;

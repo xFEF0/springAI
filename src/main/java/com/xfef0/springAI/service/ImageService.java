@@ -1,4 +1,4 @@
-package com.xfef0.springAI;
+package com.xfef0.springAI.service;
 
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;

@@ -1,5 +1,8 @@
 package com.xfef0.springAI;
 
+import com.xfef0.springAI.service.ChatService;
+import com.xfef0.springAI.service.ImageService;
+import com.xfef0.springAI.service.RecipeService;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
